@@ -13,11 +13,14 @@ from arcemu import GossipMenu
 
 LK_STATE = {}
 TF_STATE = {}
+TF_TIMER = {}
 TM_STATE = {}
 
 CREATUREID_LICH_KING = 36597
 CREATUREID_TIRION_FORDRING = 38995
 CREATUREID_TERENAS_MENETHIL = 36823
+
+EMOTE_ONESHOT_POINT_NOSHEATHE = 397
 
 SOUNDID_FURY_OF_FROSTMOURNE = 17459
 
@@ -29,7 +32,7 @@ SPELLID_FURY_OF_FROSTMOURNE = 72350 #need dummy aura
 # The Lich King
 #
 def LichKing_onDied( unit, event, killer ):
-    unit.castSpell(SPELLID_PLAY_MOVIE, True)
+    unit.castSpell( SPELLID_PLAY_MOVIE, True )
 
 def LichKing_onCombatStart( unit, event, target ):
     print("todo")
@@ -59,11 +62,11 @@ def LichKing_onDamageTaken( unit, event, attacker, amount ):
     if not ((health - amount) / maxhealth > 10):
         #reactpassive
         #attackstop
-        unit.playSoundToSet(SOUNDID_FURY_OF_FROSTMOURNE)
-        unit.castSpell(SPELLID_FURY_OF_FROSTMOURNE, False)
+        unit.playSoundToSet( SOUNDID_FURY_OF_FROSTMOURNE )
+        unit.castSpell( SPELLID_FURY_OF_FROSTMOURNE, False )
         #setwalk
         
-def LichKing_onAIUpdate(unit, event):
+def LichKing_onAIUpdate( unit, event ):
     state = LK_STATE[ unit.getGUID() ]
     print("todo")
     
@@ -76,11 +79,39 @@ def LichKing_onLoad( unit, event ):
 #
 def TirionFordring_DoAction():
     print("todo")
-    
-def TirionFordring_onAIUpdate(unit, event):
+       
+def TirionFordring_onAIUpdate( unit, event ):
     state = TF_STATE[ unit.getGUID() ]
-    print("todo")
+    timer = TF_TIMER[ unit.getGUID() ]
     
+    if state == 0:
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "We'll grant you a swift death, Arthas. More than can be said for the thousands you've tortured and slain." )
+        unit.playSoundToSet( 17390 )
+        TF_TIMER[ unit.getGUID() ] = 2
+        
+    elif state == 1 and timer <= 0:
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "test2" )
+        unit.emote( EMOTE_ONESHOT_POINT_NOSHEATHE, 0 )
+        TF_TIMER[ unit.getGUID() ] = 3
+        
+    elif state == 3 and timer <= 0:
+        #walk
+        #move to
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "test3" )
+        TF_TIMER[ unit.getGUID() ] = 20
+        
+        
+    if state == 4:
+            state = 0
+    else:
+            state = state + 1
+            
+    TF_STATE[ unit.getGUID() ] = state
+    
+    timer = timer - 1
+    
+    TF_TIMER[ unit.getGUID() ] = timer
+           
 def TirionFordring_onHello( unit, event, player ):
 	
 	creature = unit.toCreature()
@@ -92,20 +123,23 @@ def TirionFordring_onHello( unit, event, player ):
     
 def TirionFordring_onSelectOption( unit, player, id, enteredCode ):
 
-	GossipMenu.complete( player )
-	creature = unit.toCreature()
+    GossipMenu.complete( player )
+    unit.RegisterAIUpdateEvent( 1000 )    
+    creature = unit.toCreature()
 	
-	if id == 1:
+    if id == 1:
             creature.removeNpcFlag( arcemu.NPC_FLAG_GOSSIP )
             creature.setMovementType( arcemu.MOVEMENTTYPE_FORWARDTHENSTOP )
 
 def TirionFordring_onLoad( unit, event ):
+    TF_STATE[ unit.getGUID() ] = 0
+    TF_TIMER[ unit.getGUID() ] = 0
+    #unit.RegisterAIUpdateEvent( 1000 )
     creature = unit.toCreature()
     creature.setMovementType( arcemu.MOVEMENTTYPE_DONTMOVEWP )
     creature.resetWaypoint()
     creature.destroyCustomWaypoints()
-    creature.createCustomWaypoint( 489.2970, -2124.840, 840.8569, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
-    print("todo")    
+    creature.createCustomWaypoint( 489.2970, -2124.840, 840.8569, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )    
 
 #
 # King Terenas Menethil
@@ -113,10 +147,10 @@ def TirionFordring_onLoad( unit, event ):
 def TerenasMenethil_DoAction():
     print("todo")   
 
-def TerenasMenethil_onDamageTaken(unit, event, attacker, amount):
+def TerenasMenethil_onDamageTaken( unit, event, attacker, amount ):
     print("todo")
 
-def TerenasMenethil_onAIUpdate(unit, event):
+def TerenasMenethil_onAIUpdate( unit, event ):
     state = TM_STATE[ unit.getGUID() ]
     print("todo")
 
@@ -163,7 +197,3 @@ arcemu.RegisterUnitEvent( CREATUREID_TERENAS_MENETHIL, arcemu.CREATURE_EVENT_ON_
 #arcemu.RegisterDummyAuraHandler( SPELLID_EMOTE_SIT_NO_SHEATH, EmoteSeatNoSheat_handleDummyAura )
 #arcemu.RegisterDummyAuraHandler( SPELLID_FURY_OF_FROSTMOURNE, Fury_of_Frostmourne_handleDummyAura )
 arcemu.RegisterScriptedEffectHandler( SPELLID_PLAY_MOVIE, Play_Movie_handleScriptedEffect )
-
-
-
-
