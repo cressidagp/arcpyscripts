@@ -1,2 +1,2 @@
 # arcpythonscripts
-Just a repo to track my scripts changes. I may try to pull them to arcemu if they get a decent state.
+Just a repo to learn python scripting and track my scripts changes. At least for now, the focus will be the Lich King enconunter.
