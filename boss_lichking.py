@@ -12,6 +12,7 @@ from arcemu import Unit
 from arcemu import GossipMenu
 
 LK_STATE = {}
+LK_TIMER = {}
 TF_STATE = {}
 TF_TIMER = {}
 TM_STATE = {}
@@ -29,7 +30,9 @@ SPELLID_PLAY_MOVIE = 73159 # need scripted effect
 SPELLID_FURY_OF_FROSTMOURNE = 72350 #need dummy aura
 
 #
+#
 # The Lich King
+#
 #
 def LichKing_onDied( unit, event, killer ):
     unit.castSpell( SPELLID_PLAY_MOVIE, True )
@@ -68,14 +71,46 @@ def LichKing_onDamageTaken( unit, event, attacker, amount ):
         
 def LichKing_onAIUpdate( unit, event ):
     state = LK_STATE[ unit.getGUID() ]
-    print("todo")
+    timer = LK_TIMER[ unit.getGUID() ]
+
+    if state == 0:
+            unit.setSheatState( 1 )
+            unit.getAuraBySpellId( SPELLID_EMOTE_SIT_NO_SHEATH ).remove()
+            #walk
+            #moveto
+
+    elif state == 1:
+            print("todo")
+    
+    elif state == 3:
+            print("todo")
+
+    elif state == 4:
+            unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "You'll learn of that first hand. When my work is complete, you will beg for mercy -- and I will deny you. Your anguished cries will be testament to my unbridled power..." )
+            unit.playSoundToSet( 17350 )
+
+    if state == 99:
+            state = 0
+    else:
+            state = state + 1
+
+    LK_STATE[ unit.getGUID() ] = state
+
+    timer = timer - 1
+
+    LK_TIMER[ unit.getGUID() ] = timer
+
+
     
 def LichKing_onLoad( unit, event ):
-    print("todo")
+    LK_STATE[ unit.getGUID() ] = 0
+    LK_TIMER[ unit.getGUID() ] = 0
     #unit.castSpell(SPELLID_EMOTE_SIT_NO_SHEATH, True)
 
 #
+#
 # TIRION FORDRING
+#
 #
 def TirionFordring_DoAction():
     print("todo")
@@ -101,7 +136,7 @@ def TirionFordring_onAIUpdate( unit, event ):
         TF_TIMER[ unit.getGUID() ] = 20
         
         
-    if state == 4:
+    if state == 99:
             state = 0
     else:
             state = state + 1
@@ -142,7 +177,9 @@ def TirionFordring_onLoad( unit, event ):
     creature.createCustomWaypoint( 489.2970, -2124.840, 840.8569, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )    
 
 #
+#
 # King Terenas Menethil
+#
 #
 def TerenasMenethil_DoAction():
     print("todo")   
@@ -159,19 +196,19 @@ def TerenasMenethil_onLoad( unit, event ):
 #
 # Spell: Emote - Seat (No Sheat)
 #
-def EmoteSeatNoSheat_handleDummyAura():
+def emoteSeatNoSheat_handleDummyAura():
     print("research me")
 
 #
 # Spell: Fury of Frostmourne
 #
-def Fury_of_Frostmourne_handleDummyAura():
+def furyOfFrostmourne_handleDummyAura():
     print("research me")
     
 #
 # Spell: Play Movie
 #
-def Play_Movie_handleScriptedEffect( effectIndex, spell ):
+def playMovie_handleScriptedEffect( effectIndex, spell ):
     print("research me")
     
 # The Lich King:
@@ -194,6 +231,6 @@ arcemu.RegisterUnitEvent( CREATUREID_TERENAS_MENETHIL, arcemu.CREATURE_EVENT_ON_
 arcemu.RegisterUnitEvent( CREATUREID_TERENAS_MENETHIL, arcemu.CREATURE_EVENT_ON_LOAD, TerenasMenethil_onLoad )
 
 # Spells:
-#arcemu.RegisterDummyAuraHandler( SPELLID_EMOTE_SIT_NO_SHEATH, EmoteSeatNoSheat_handleDummyAura )
-#arcemu.RegisterDummyAuraHandler( SPELLID_FURY_OF_FROSTMOURNE, Fury_of_Frostmourne_handleDummyAura )
-arcemu.RegisterScriptedEffectHandler( SPELLID_PLAY_MOVIE, Play_Movie_handleScriptedEffect )
+#arcemu.RegisterDummyAuraHandler( SPELLID_EMOTE_SIT_NO_SHEATH, emoteSeatNoSheat_handleDummyAura )
+#arcemu.RegisterDummyAuraHandler( SPELLID_FURY_OF_FROSTMOURNE, furyOfFrostmourne_handleDummyAura )
+arcemu.RegisterScriptedEffectHandler( SPELLID_PLAY_MOVIE, playMovie_handleScriptedEffect )
