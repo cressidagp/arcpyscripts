@@ -15,19 +15,13 @@ LK_TIMER = {}
 
 CREATUREID_LICH_KING = 36597
 
-EMOTE_ONESHOT_POINT_NOSHEATHE = 397
-
+SOUNDID_MUSIC_FROZEN_THRONE = 17457
 SOUNDID_FURY_OF_FROSTMOURNE = 17459
 
 SPELLID_EMOTE_SIT_NO_SHEATH = 73220 # need dummy aura
 SPELLID_PLAY_MOVIE = 73159 # need scripted effect
 SPELLID_FURY_OF_FROSTMOURNE = 72350 #need dummy aura
 
-#
-#
-# The Lich King
-#
-#
 def LichKing_onDied( unit, event, killer ):
     unit.castSpell( SPELLID_PLAY_MOVIE, True )
 
@@ -44,8 +38,13 @@ def LichKing_onTargetDied( unit, event, target ):
        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "The end has come!" )
        unit.playSoundToSet( 17364 )
 
-def LichKing_DoAction():
-    print("todo")
+def LichKing_onReachWP( unit, event, wpid, foward ):
+    if wpid == 1:
+        unit.doAction( 1 )
+
+def LichKing_doAction( action, unit ):
+    if action == 1:
+         unit.playSoundToSet( SOUNDID_MUSIC_FROZEN_THRONE )
 
 def LichKing_onDamageTaken( unit, event, attacker, amount ):
     health = unit.getHealth()
@@ -123,6 +122,7 @@ def playMovie_handleScriptedEffect( effectIndex, spell ):
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_DIED, LichKing_onDied )
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_ENTER_COMBAT, LichKing_onCombatStart )
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_TARGET_DIED, LichKing_onTargetDied )
+arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_REACH_WP, LichKing_onReachWP )
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_DAMAGE_TAKEN, LichKing_onDamageTaken )
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_AIUPDATE, LichKing_onAIUpdate )
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_LOAD, LichKing_onLoad )
