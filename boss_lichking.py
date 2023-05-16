@@ -107,7 +107,8 @@ def LichKing_onAIUpdate( unit, event ):
 
     if state == 0 and phase == LK_PHASE_INTRO:
         unit.setSheatState( 1 )
-        unit.getAuraBySpellId( SPELLID_EMOTE_SIT_NO_SHEATH ).remove()
+        #aura = unit.getAuraBySpellId( SPELLID_EMOTE_SIT_NO_SHEATH )
+        #aura.remove()
         creature = unit.toCreature()
         #walk
         creature.moveTo( 432.0851, -2123.673, 864.6582, 0.0 )
