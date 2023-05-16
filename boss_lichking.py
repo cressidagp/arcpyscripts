@@ -120,9 +120,11 @@ def LichKing_onAIUpdate( unit, event ):
         creature.moveTo( 432.0851, -2123.673, 864.6582, 0.0 )
 
     elif state == 1 and phase == LK_PHASE_INTRO:
+        creature = unit.toCreature()
         creature.moveTo( 457.835, -2123.426, 841.1582, 0.0 )
             
     elif state == 3 and phase == LK_PHASE_INTRO:
+        creature = unit.toCreature()
         creature.moveTo( 465.0730, -2123.470, 840.8569, 0.0 )
 
     elif state == 4 and phase == LK_PHASE_INTRO:
