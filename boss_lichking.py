@@ -136,7 +136,7 @@ def LichKing_onAIUpdate( unit, event ):
         unit.castSpell( SPELLID_SUMMON_SHAMBLING_HORROR, False )
         LK_SummonSH[ lkguid ] = 60
 
-    elif summondg[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif LK_SummonDG[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
         unit.castSpell( SPELLID_SUMMON_DRUDGE_GHOULS, False )
         LK_SummonDG[ lkguid ] = 30
         
