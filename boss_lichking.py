@@ -173,7 +173,7 @@ def LichKing_onAIUpdate( unit, event ):
 def LichKing_onLoad( unit, event ):
     LK_PHASE[ unit.getGUID() ] = 1
     LK_STATE[ unit.getGUID() ] = 0
-    LK_TIMER[ unit.getGUID() ] = 0
+    #LK_TIMER[ unit.getGUID() ] = 0
     unit.castSpell( SPELLID_EMOTE_SIT_NO_SHEATH, True )
     unit.RegisterAIUpdateEvent( 1000 )
     creature = unit.toCreature()
