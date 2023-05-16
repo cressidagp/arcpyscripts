@@ -10,7 +10,6 @@ import ArcPyMath as Math
 from arcemu import Unit
 
 LK_STATE    = {}
-LK_TIMER    = {}
 LK_PHASE    = {}
 #phase 1 timers... how to store all in one?
 LK_SummonSH = {}
@@ -23,6 +22,7 @@ LK_ShadowT  = {}
 #change this to enum?
 LK_PHASE_INTRO  = 1
 LK_PHASE_ONE    = 2
+LK_PHASE_TWO    = 3
 
 CREATUREID_LICH_KING = 36597
 
@@ -67,13 +67,13 @@ def LichKing_onTargetDied( unit, event, target ):
 def LichKing_onReachWP( unit, event, wpid, foward ):
     if wpid == 1:
         #unit.LichKing_doAction( 1 )
-        LK_TIMER[ unit.getGUID() ] = 0.1
+        unit.ModifyAIUpdateEvent( 100 )
 
     elif wpid == 2:
-        LK_TIMER[ unit.getGUID() ] = 0.1
+        unit.ModifyAIUpdateEvent( 100 )
 
     elif wpid == 3:
-        LK_TIMER[ unit.getGUID() ] = 9
+        unit.ModifyAIUpdateEvent( 9000 )
 
 def LichKing_doAction( action, unit ):
     if action == 1:
@@ -104,74 +104,70 @@ def LichKing_onAIUpdate( unit, event ):
     lkguid = unit.getGUID()
     phase = LK_PHASE[ lkguid ]
     state = LK_STATE[ lkguid ]
-    timer = LK_TIMER[ lkguid ]
-    
-    if phase == LK_PHASE_INTRO:
-        if state == 0:
-            unit.setSheatState( 1 )
-            unit.getAuraBySpellId( SPELLID_EMOTE_SIT_NO_SHEATH ).remove()
-            #walk
-            #moveto1
 
-        elif state == 1 and timer <= 0:
-            print("move to 2")
+    if state == 0 and phase == LK_PHASE_INTRO:
+        unit.setSheatState( 1 )
+        unit.getAuraBySpellId( SPELLID_EMOTE_SIT_NO_SHEATH ).remove()
+        creature = unit.toCreature()
+        #walk
+        creature.moveTo( 432.0851, -2123.673, 864.6582, 0.0 )
+
+    elif state == 1 and phase == LK_PHASE_INTRO:
+        creature.moveTo( 457.835, -2123.426, 841.1582, 0.0 )
             
-        elif state == 3 and timer <= 0:
-            print("move to 3")
+    elif state == 3 and phase == LK_PHASE_INTRO:
+        creature.moveTo( 465.0730, -2123.470, 840.8569, 0.0 )
 
-        elif state == 4:
-            unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "You'll learn of that first hand. When my work is complete, you will beg for mercy -- and I will deny you. Your anguished cries will be testament to my unbridled power..." )
-            unit.playSoundToSet( 17350 )
+    elif state == 4 and phase == LK_PHASE_INTRO:
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "You'll learn of that first hand. When my work is complete, you will beg for mercy -- and I will deny you. Your anguished cries will be testament to my unbridled power..." )
+        unit.playSoundToSet( 17350 )
+        unit.ModifyAIUpdateEvent( 1000 )
 
-        if state == 99:
-                state = 0
-        else:
-                state = state + 1
-                print(state)
+    elif LK_SummonSH[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+        unit.castSpell( SPELLID_SUMMON_SHAMBLING_HORROR, False )
+        LK_SummonSH[ lkguid ] = 60
 
-        LK_STATE[ unit.getGUID() ] = state
-
-    elif phase == LK_PHASE_ONE:
-        if LK_SummonSH[ lkguid ] <= 0:
-            unit.castSpell( SPELLID_SUMMON_SHAMBLING_HORROR, False )
-            LK_SummonSH[ lkguid ] = 60
-
-        elif LK_SummonDG[ lkguid ] <= 0:
-            unit.castSpell( SPELLID_SUMMON_DRUDGE_GHOULS, False )
-            LK_SummonDG[ lkguid ] = 30
+    elif LK_SummonDG[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+        unit.castSpell( SPELLID_SUMMON_DRUDGE_GHOULS, False )
+        LK_SummonDG[ lkguid ] = 30
         
-        elif LK_Infest[ lkguid ] <= 0:
-            unit.castSpell( SPELLID_INFEST, False )
-            LK_Infest[ lkguid ] = 24
+    elif LK_Infest[ lkguid ] <= 0 and ( phase == LK_PHASE_ONE or phase == LK_PHASE_TWO ):
+        unit.castSpell( SPELLID_INFEST, False )
+        LK_Infest[ lkguid ] = 24
 
-        elif LK_NecroP[ lkguid ] <= 0:
-            creature = unit.toCreature()
-            tank = creature.getMostHated()
-            if tank is not None:
-                unit.castSpell( SPELLID_NECROTIC_PLAGUE, True, tank )
+    elif LK_NecroP[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+        creature = unit.toCreature()
+        tank = creature.getMostHated()
+        if tank is not None:
+            unit.castSpell( SPELLID_NECROTIC_PLAGUE, True, tank )
             LK_NecroP[ lkguid ] = Math.randomUInt( 30, 33 )
 
-        elif LK_Berserk[ lkguid ] <= 0:
-            unit.castSpell( SPELLID_BERSERK2, True )
-            LK_Berserk[ lkguid ] = 1000 * 15
+    elif LK_Berserk[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+        unit.castSpell( SPELLID_BERSERK2, True )
+        LK_Berserk[ lkguid ] = 1000 * 15
 
-        elif LK_ShadowT[ lkguid ] <= 0:
-            creature = unit.toCreature()
-            tank = creature.getMostHated()
-            if tank is not None:
-                unit.castSpell( SPELLID_SHADOW_TRAP, False, tank )
+    elif LK_ShadowT[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+        creature = unit.toCreature()
+        tank = creature.getMostHated()
+        if tank is not None:
+            unit.castSpell( SPELLID_SHADOW_TRAP, False, tank )
             LK_ShadowT[ lkguid ] = 15
 
-        LK_SummonSH[ lkguid ] = LK_SummonSH[ lkguid ] - 1
-        LK_SummonDG[ lkguid ] = LK_SummonDG[ lkguid ] - 1
-        LK_Infest[ lkguid ] = LK_Infest[ lkguid ] - 1
-        LK_NecroP[ lkguid ] = LK_NecroP[ lkguid ] - 1
-        LK_Berserk[ lkguid ] = LK_Berserk[ lkguid ] - 1
-        LK_ShadowT[ lkguid ] = LK_ShadowT[ lkguid ] - 1
+    lkguid = unit.getGUID()
+    LK_SummonSH[ lkguid ] = LK_SummonSH[ lkguid ] - 1
+    LK_SummonDG[ lkguid ] = LK_SummonDG[ lkguid ] - 1
+    LK_Infest[ lkguid ] = LK_Infest[ lkguid ] - 1
+    LK_NecroP[ lkguid ] = LK_NecroP[ lkguid ] - 1
+    LK_Berserk[ lkguid ] = LK_Berserk[ lkguid ] - 1
+    LK_ShadowT[ lkguid ] = LK_ShadowT[ lkguid ] - 1
 
-    timer = timer - 1
+    if state == 99:
+            state = 0
+    else:
+            state = state + 1
+            print(state)
 
-    LK_TIMER[ unit.getGUID() ] = timer
+    LK_STATE[ unit.getGUID() ] = state
    
 def LichKing_onLoad( unit, event ):
     LK_PHASE[ unit.getGUID() ] = 1
@@ -180,12 +176,12 @@ def LichKing_onLoad( unit, event ):
     unit.castSpell( SPELLID_EMOTE_SIT_NO_SHEATH, True )
     unit.RegisterAIUpdateEvent( 1000 )
     creature = unit.toCreature()
-    creature.setMovementType( arcemu.MOVEMENTTYPE_DONTMOVEWP )
-    creature.resetWaypoint()
-    creature.destroyCustomWaypoints()
-    creature.createCustomWaypoint( 432.0851, -2123.673, 864.6582, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
-    creature.createCustomWaypoint( 457.835, -2123.426, 841.1582, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
-    creature.createCustomWaypoint( 465.0730, -2123.470, 840.8569, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
+    #creature.setMovementType( arcemu.MOVEMENTTYPE_DONTMOVEWP )
+    #creature.resetWaypoint()
+    #creature.destroyCustomWaypoints()
+    #creature.createCustomWaypoint( 432.0851, -2123.673, 864.6582, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
+    #creature.createCustomWaypoint( 457.835, -2123.426, 841.1582, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
+    #creature.createCustomWaypoint( 465.0730, -2123.470, 840.8569, 0.0, 250, arcemu.WAYPOINT_FLAG_WALK, 0 )
  
 #
 # Spell: Emote - Seat (No Sheat)
