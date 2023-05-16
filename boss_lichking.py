@@ -111,7 +111,7 @@ def LichKing_onAIUpdate( unit, event ):
     #berserk = LK_Berserk[ lkguid ]
     #shadowt = LK_ShadowT[ lkguid ]
 
-    if state == 0 and phase == LK_PHASE_INTRO:
+    if phase == LK_PHASE_INTRO and state == 0:
         unit.setSheatState( 1 )
         #aura = unit.getAuraBySpellId( SPELLID_EMOTE_SIT_NO_SHEATH )
         #aura.remove()
@@ -119,15 +119,15 @@ def LichKing_onAIUpdate( unit, event ):
         #walk
         creature.moveTo( 432.0851, -2123.673, 864.6582, 0.0 )
 
-    elif state == 1 and phase == LK_PHASE_INTRO:
+    elif phase == LK_PHASE_INTRO and state == 1:
         creature = unit.toCreature()
         creature.moveTo( 457.835, -2123.426, 841.1582, 0.0 )
             
-    elif state == 3 and phase == LK_PHASE_INTRO:
+    elif phase == LK_PHASE_INTRO and state == 2:
         creature = unit.toCreature()
         creature.moveTo( 465.0730, -2123.470, 840.8569, 0.0 )
 
-    elif state == 4 and phase == LK_PHASE_INTRO:
+    elif phase == LK_PHASE_INTRO and state == 3:
         unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "You'll learn of that first hand. When my work is complete, you will beg for mercy -- and I will deny you. Your anguished cries will be testament to my unbridled power..." )
         unit.playSoundToSet( 17350 )
         unit.ModifyAIUpdateEvent( 1000 )
@@ -194,6 +194,7 @@ def LichKing_onLoad( unit, event ):
     lkguid = unit.getGUID()
     LK_PHASE[ lkguid ] = 1
     LK_STATE[ lkguid ] = 0
+    #phase 1 timers:
     LK_SummonSH[ lkguid ] = None
     LK_SummonDG[ lkguid ] = None
     LK_Infest[ lkguid ] = None
