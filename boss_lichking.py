@@ -132,30 +132,30 @@ def LichKing_onAIUpdate( unit, event ):
         unit.playSoundToSet( 17350 )
         unit.ModifyAIUpdateEvent( 1000 )
 
-    elif LK_SummonSH[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif phase == LK_PHASE_ONE and LK_SummonSH[ lkguid ] <= 0:
         unit.castSpell( SPELLID_SUMMON_SHAMBLING_HORROR, False )
         LK_SummonSH[ lkguid ] = 60
 
-    elif LK_SummonDG[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif phase == LK_PHASE_ONE and LK_SummonDG[ lkguid ] <= 0:
         unit.castSpell( SPELLID_SUMMON_DRUDGE_GHOULS, False )
         LK_SummonDG[ lkguid ] = 30
         
-    elif LK_Infest[ lkguid ] <= 0 and ( phase == LK_PHASE_ONE or phase == LK_PHASE_TWO ):
+    elif ( phase == LK_PHASE_ONE or phase == LK_PHASE_TWO ) and LK_Infest[ lkguid ] <= 0:
         unit.castSpell( SPELLID_INFEST, False )
         LK_Infest[ lkguid ] = 24
 
-    elif LK_NecroP[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif phase == LK_PHASE_ONE and LK_NecroP[ lkguid ] <= 0:
         creature = unit.toCreature()
         tank = creature.getMostHated()
         if tank is not None:
             unit.castSpell( SPELLID_NECROTIC_PLAGUE, True, tank )
             LK_NecroP[ lkguid ] = Math.randomUInt( 30, 33 )
 
-    elif LK_Berserk[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif phase == LK_PHASE_ONE and LK_Berserk[ lkguid ] <= 0:
         unit.castSpell( SPELLID_BERSERK2, True )
         LK_Berserk[ lkguid ] = 1000 * 15
 
-    elif LK_ShadowT[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif phase == LK_PHASE_ONE and LK_ShadowT[ lkguid ] <= 0:
         creature = unit.toCreature()
         tank = creature.getMostHated()
         if tank is not None:
