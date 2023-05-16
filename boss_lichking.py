@@ -199,7 +199,18 @@ def furyOfFrostmourne_handleDummyAura():
 # Spell: Play Movie
 #
 def playMovie_handleScriptedEffect( effectIndex, spell ):
-    print("research me")
+    caster = spell.getCaster()
+    c = arcemu.toCreature( caster )
+
+    if c is not None:
+        objects = c.getObjectsInRange()
+        for o in objects:
+            u = arcemu.toUnit( o )
+            if u is not None:
+                if u.isPlayer():
+                    p = u.toPlayer()
+                    p.sendMovie( 16 )
+    return True
     
 # The Lich King:
 arcemu.RegisterUnitEvent( CREATUREID_LICH_KING, arcemu.CREATURE_EVENT_ON_DIED, LichKing_onDied )
