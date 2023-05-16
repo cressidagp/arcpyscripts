@@ -104,6 +104,12 @@ def LichKing_onAIUpdate( unit, event ):
     lkguid = unit.getGUID()
     phase = LK_PHASE[ lkguid ]
     state = LK_STATE[ lkguid ]
+    #summonsh = LK_SummonSH[ lkguid ]
+    #summondg = LK_SummonDG[ lkguid ]
+    #infest = LK_Infest[ lkguid ]
+    #necrop = LK_NecroP[ lkguid ]
+    #berserk = LK_Berserk[ lkguid ]
+    #shadowt = LK_ShadowT[ lkguid ]
 
     if state == 0 and phase == LK_PHASE_INTRO:
         unit.setSheatState( 1 )
@@ -128,7 +134,7 @@ def LichKing_onAIUpdate( unit, event ):
         unit.castSpell( SPELLID_SUMMON_SHAMBLING_HORROR, False )
         LK_SummonSH[ lkguid ] = 60
 
-    elif LK_SummonDG[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
+    elif summondg[ lkguid ] <= 0 and phase == LK_PHASE_ONE:
         unit.castSpell( SPELLID_SUMMON_DRUDGE_GHOULS, False )
         LK_SummonDG[ lkguid ] = 30
         
@@ -155,12 +161,24 @@ def LichKing_onAIUpdate( unit, event ):
             LK_ShadowT[ lkguid ] = 15
 
     lkguid = unit.getGUID()
-    LK_SummonSH[ lkguid ] = LK_SummonSH[ lkguid ] - 1
-    LK_SummonDG[ lkguid ] = LK_SummonDG[ lkguid ] - 1
-    LK_Infest[ lkguid ] = LK_Infest[ lkguid ] - 1
-    LK_NecroP[ lkguid ] = LK_NecroP[ lkguid ] - 1
-    LK_Berserk[ lkguid ] = LK_Berserk[ lkguid ] - 1
-    LK_ShadowT[ lkguid ] = LK_ShadowT[ lkguid ] - 1
+
+    if LK_SummonSH[ lkguid ] != None:
+        LK_SummonSH[ lkguid ] = LK_SummonSH[ lkguid ] - 1
+    
+    if LK_SummonDG[ lkguid ] != None:
+        LK_SummonDG[ lkguid ] = LK_SummonDG[ lkguid ] - 1
+
+    if LK_Infest[ lkguid ] != None:
+        LK_Infest[ lkguid ] = LK_Infest[ lkguid ] - 1
+
+    if LK_NecroP[ lkguid ] != None:
+        LK_NecroP[ lkguid ] = LK_NecroP[ lkguid ] - 1
+    
+    if LK_Berserk[ lkguid ] != None:
+        LK_Berserk[ lkguid ] = LK_Berserk[ lkguid ] - 1
+
+    if LK_ShadowT[ lkguid ] != None:    
+        LK_ShadowT[ lkguid ] = LK_ShadowT[ lkguid ] - 1
 
     if state == 99:
             state = 0
@@ -171,9 +189,15 @@ def LichKing_onAIUpdate( unit, event ):
     LK_STATE[ unit.getGUID() ] = state
    
 def LichKing_onLoad( unit, event ):
-    LK_PHASE[ unit.getGUID() ] = 1
-    LK_STATE[ unit.getGUID() ] = 0
-    #LK_TIMER[ unit.getGUID() ] = 0
+    lkguid = unit.getGUID()
+    LK_PHASE[ lkguid ] = 1
+    LK_STATE[ lkguid ] = 0
+    LK_SummonSH[ lkguid ] = None
+    LK_SummonDG[ lkguid ] = None
+    LK_Infest[ lkguid ] = None
+    LK_NecroP[ lkguid ] = None
+    LK_Berserk[ lkguid ] = None
+    LK_ShadowT[ lkguid ] = None
     unit.castSpell( SPELLID_EMOTE_SIT_NO_SHEATH, True )
     unit.RegisterAIUpdateEvent( 1000 )
     creature = unit.toCreature()
