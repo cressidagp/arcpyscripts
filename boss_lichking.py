@@ -18,16 +18,18 @@ LK_Infest   = {}
 LK_NecroP   = {}
 LK_Berserk  = {}
 LK_ShadowT  = {}
+#phase 2
+LK_SummonV  = {}
+LK_Defile   = {}
+LK_SoulR    = {}
+
+CREATUREID_LICH_KING = 36597
 
 #change this to enum?
 LK_PHASE_INTRO  = 1
 LK_PHASE_ONE    = 2
 LK_PHASE_TWO    = 3
-
-CREATUREID_LICH_KING = 36597
-
-SOUNDID_MUSIC_FROZEN_THRONE = 17457
-SOUNDID_FURY_OF_FROSTMOURNE = 17459
+LK_PHASE_THREE  = 4
 
 SPELLID_SUMMON_SHAMBLING_HORROR = 70372
 SPELLID_SUMMON_DRUDGE_GHOULS    = 70358
@@ -36,9 +38,22 @@ SPELLID_NECROTIC_PLAGUE         = 70337
 SPELLID_SHADOW_TRAP             = 73539 # need a dummy aura
 SPELLID_BERSERK2                = 47008
 
+SPELLID_SUMMON_VALKYR           = 69037 # need vehicle fix?
+SPELLID_DEFILE                  = 72762
+SPELLID_SOUL_REAPER             = 69409
+
 SPELLID_EMOTE_SIT_NO_SHEATH = 73220 # need dummy aura
 SPELLID_PLAY_MOVIE          = 73159 # need scripted effect
 SPELLID_FURY_OF_FROSTMOURNE = 72350 #need dummy aura
+
+SOUNDID_LK_BERSERK          = 17365
+SOUNDID_LK_SUMMON_VALKYR    = 17373
+SOUNDID_MUSIC_FROZEN_THRONE = 17457
+SOUNDID_MUSIC_SPECIAL       = 17458
+SOUNDID_FURY_OF_FROSTMOURNE = 17459
+
+CHAT_MSG_RAID_WARNING_WIDESCREEN    = 41
+CHAT_MSG_RAID_BOSS_EMOTE            = 42
 
 def LichKing_onDied( unit, event, killer ):
     unit.castSpell( SPELLID_PLAY_MOVIE, True )
@@ -133,6 +148,7 @@ def LichKing_onAIUpdate( unit, event ):
         unit.ModifyAIUpdateEvent( 1000 )
 
     elif phase == LK_PHASE_ONE and LK_SummonSH[ lkguid ] <= 0:
+        unit.playSoundToSet( SOUNDID_MUSIC_SPECIAL )
         unit.castSpell( SPELLID_SUMMON_SHAMBLING_HORROR, False )
         LK_SummonSH[ lkguid ] = 60
 
@@ -145,6 +161,7 @@ def LichKing_onAIUpdate( unit, event ):
         LK_Infest[ lkguid ] = 24
 
     elif phase == LK_PHASE_ONE and LK_NecroP[ lkguid ] <= 0:
+        unit.sendChatMessage( CHAT_MSG_RAID_BOSS_EMOTE, arcemu.LANG_UNIVERSAL, "|TInterface\Icons\ability_creature_disease_02.blp:16|t You have been infected by |cFFBC05FFNecrotic Plague|r! |TInterface\Icons\ability_creature_disease_02.blp:16|t" )
         creature = unit.toCreature()
         tank = creature.getMostHated()
         if tank is not None:
@@ -152,6 +169,8 @@ def LichKing_onAIUpdate( unit, event ):
             LK_NecroP[ lkguid ] = Math.randomUInt( 30, 33 )
 
     elif phase == LK_PHASE_ONE and LK_Berserk[ lkguid ] <= 0:
+        unit.playSoundToSet( SOUNDID_LK_BERSERK )
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_YELL, arcemu.LANG_UNIVERSAL, "Face now your tragic end." )
         unit.castSpell( SPELLID_BERSERK2, True )
         LK_Berserk[ lkguid ] = 1000 * 15
 
@@ -161,6 +180,28 @@ def LichKing_onAIUpdate( unit, event ):
         if tank is not None:
             unit.castSpell( SPELLID_SHADOW_TRAP, False, tank )
             LK_ShadowT[ lkguid ] = 15
+
+    elif phase == LK_PHASE_TWO and LK_SummonV[ lkguid ] <= 0:
+        unit.playSoundToSet( SOUNDID_MUSIC_SPECIAL )
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_YELL, arcemu.LANG_UNIVERSAL, "Val'kyr, your master calls!" )
+        unit.playSoundToSet( SOUNDID_LK_SUMMON_VALKYR )
+        unit.castSpell( SPELLID_SUMMON_VALKYR, True )
+        LK_SummonV[ lkguid ] = Math.randomUInt( 48, 50 )
+
+    elif ( phase == LK_PHASE_TWO or phase == LK_PHASE_THREE ) and LK_Defile[ lkguid ] <= 0:
+        unit.sendChatMessage( CHAT_MSG_RAID_WARNING_WIDESCREEN, arcemu.LANG_UNIVERSAL, "%s begins to cast Defile!" )
+        creature = unit.toCreature()
+        tank = creature.getMostHated()
+        if tank is not None:
+            unit.castSpell( SPELLID_DEFILE, False, tank )
+            LK_Defile[ lkguid ] = Math.randomUInt( 32, 35 )
+
+    elif ( phase == LK_PHASE_TWO or phase == LK_PHASE_THREE ) and LK_SoulR[ lkguid ] <= 0:
+        creature = unit.toCreature()
+        tank = creature.getMostHated()
+        if tank is not None:
+            unit.castSpell( SPELLID_SOUL_REAPER, True, tank )
+            LK_SoulR[ lkguid ] = Math.randomUInt( 33, 35 )
 
     lkguid = unit.getGUID()
 
@@ -182,6 +223,15 @@ def LichKing_onAIUpdate( unit, event ):
     if LK_ShadowT[ lkguid ] != None:    
         LK_ShadowT[ lkguid ] = LK_ShadowT[ lkguid ] - 1
 
+    if LK_SummonV[ lkguid ] != None:
+        LK_SummonV[ lkguid ] = LK_SummonV[ lkguid ] - 1
+
+    if LK_Defile[ lkguid ] != None:
+        LK_Defile[ lkguid ] = LK_Defile[ lkguid ] - 1
+
+    if LK_SoulR[ lkguid ] != None:
+        LK_SoulR[ lkguid ] = LK_SoulR[ lkguid ] - 1
+
     if state == 99:
             state = 0
     else:
@@ -194,13 +244,17 @@ def LichKing_onLoad( unit, event ):
     lkguid = unit.getGUID()
     LK_PHASE[ lkguid ] = 1
     LK_STATE[ lkguid ] = 0
-    #phase 1 timers:
+    #initialize phase 1 timers:
     LK_SummonSH[ lkguid ] = None
     LK_SummonDG[ lkguid ] = None
     LK_Infest[ lkguid ] = None
     LK_NecroP[ lkguid ] = None
     LK_Berserk[ lkguid ] = None
     LK_ShadowT[ lkguid ] = None
+    #initialize phase 2 timers:
+    LK_SummonV[ lkguid ] = None
+    LK_Defile[ lkguid ] = None
+    LK_SoulR[ lkguid ] = None
     unit.castSpell( SPELLID_EMOTE_SIT_NO_SHEATH, True )
     unit.RegisterAIUpdateEvent( 1000 )
     creature = unit.toCreature()
