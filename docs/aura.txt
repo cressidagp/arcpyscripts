@@ -1,0 +1,5 @@
+getSpellName()
+getSpellId()
+getAuraSlot()
+getCasterGuid()
+remove()

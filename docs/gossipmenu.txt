@@ -1,0 +1,4 @@
+addItem( icon, text, option, coded, boxMessage, boxMoney )
+addQuests( creature, player )
+sendToPlayer( player )
+complete( player )

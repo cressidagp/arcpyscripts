@@ -1,0 +1,6 @@
+getName()
+getId()
+RegisterAIUpdateEvent( interval )
+ModifyAIUpdateEvent( interval )
+RemoveAIUpdateEvent()
+despawn( delay, respawnTime )

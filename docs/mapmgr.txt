@@ -1,0 +1,4 @@
+getMapId()
+spawnCreature( id, x, y, z )
+spawnGameObject( id, x, y, z )
+getUnit( guid )

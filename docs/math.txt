@@ -1,0 +1,3 @@
+calcDistance( ax, ay, az, bx, by, bz )
+randomUInt( upperBond )
+randomFloat( upperBond )

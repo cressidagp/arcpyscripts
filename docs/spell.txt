@@ -1,0 +1,8 @@
+getName()
+getCaster()
+getPlayerCaster()
+getUnitTarget()
+getTargetDestinationX()
+getTargetDestinationY()
+getTargetDestinationZ()
+cancel()

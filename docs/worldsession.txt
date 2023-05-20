@@ -1,0 +1,4 @@
+getAccountName()
+getAccountId()
+sendInventoryList( creature )
+sendTrainerList( creature )
