@@ -132,15 +132,16 @@ def LichKing_onAIUpdate( unit, event ):
         #aura.remove()
         creature = unit.toCreature()
         #walk
-        creature.moveTo( 432.0851, -2123.673, 864.6582, 0.0 )
+        creature.moveTo( 432.0851, -2123.673, 1063.45, 0.0 )
 
     elif phase == LK_PHASE_INTRO and state == 1:
         creature = unit.toCreature()
-        creature.moveTo( 457.835, -2123.426, 841.1582, 0.0 )
+        creature.moveTo( 457.835, -2123.426, 1040.88, 0.0 )
             
     elif phase == LK_PHASE_INTRO and state == 2:
         creature = unit.toCreature()
-        creature.moveTo( 465.0730, -2123.470, 840.8569, 0.0 )
+        creature.moveTo( 465.0730, -2123.470, 1040.85, 0.0 )
+        unit.ModifyAIUpdateEvent( 9000 )
 
     elif phase == LK_PHASE_INTRO and state == 3:
         unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, "You'll learn of that first hand. When my work is complete, you will beg for mercy -- and I will deny you. Your anguished cries will be testament to my unbridled power..." )
@@ -161,7 +162,7 @@ def LichKing_onAIUpdate( unit, event ):
         LK_Infest[ lkguid ] = 24
 
     elif phase == LK_PHASE_ONE and LK_NecroP[ lkguid ] <= 0:
-        unit.sendChatMessage( CHAT_MSG_RAID_BOSS_EMOTE, arcemu.LANG_UNIVERSAL, "|TInterface\Icons\ability_creature_disease_02.blp:16|t You have been infected by |cFFBC05FFNecrotic Plague|r! |TInterface\Icons\ability_creature_disease_02.blp:16|t" )
+        #unit.sendChatMessage( CHAT_MSG_RAID_BOSS_EMOTE, arcemu.LANG_UNIVERSAL, "|TInterface\Icons\ability_creature_disease_02.blp:16|t You have been infected by |cFFBC05FFNecrotic Plague|r! |TInterface\Icons\ability_creature_disease_02.blp:16|t" )
         creature = unit.toCreature()
         tank = creature.getMostHated()
         if tank is not None:
@@ -257,7 +258,7 @@ def LichKing_onLoad( unit, event ):
     LK_SoulR[ lkguid ] = None
     unit.castSpell( SPELLID_EMOTE_SIT_NO_SHEATH, True )
     unit.RegisterAIUpdateEvent( 1000 )
-    creature = unit.toCreature()
+    #creature = unit.toCreature()
     #creature.setMovementType( arcemu.MOVEMENTTYPE_DONTMOVEWP )
     #creature.resetWaypoint()
     #creature.destroyCustomWaypoints()
