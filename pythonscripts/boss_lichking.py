@@ -64,7 +64,7 @@ def LichKing_onCombatStart( unit, event, target ):
     LK_SummonSH[ lkguid ] = 20
     LK_SummonDG[ lkguid ] = 10
     LK_Infest[ lkguid ] = 5
-    LK_NecroP[ lkguid ] = Math.randomUInt( 30, 33 )
+    LK_NecroP[ lkguid ] = 33 #Math.randomUInt( 30, 33 )
     LK_Berserk[ lkguid ] = 1000 * 15
     LK_ShadowT[ lkguid ] = 15
 
@@ -167,7 +167,7 @@ def LichKing_onAIUpdate( unit, event ):
         tank = creature.getMostHated()
         if tank is not None:
             unit.castSpell( SPELLID_NECROTIC_PLAGUE, True, tank )
-            LK_NecroP[ lkguid ] = Math.randomUInt( 30, 33 )
+            LK_NecroP[ lkguid ] = 33 #Math.randomUInt( 30, 33 )
 
     elif phase == LK_PHASE_ONE and LK_Berserk[ lkguid ] <= 0:
         unit.playSoundToSet( SOUNDID_LK_BERSERK )
@@ -187,7 +187,7 @@ def LichKing_onAIUpdate( unit, event ):
         unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_YELL, arcemu.LANG_UNIVERSAL, "Val'kyr, your master calls!" )
         unit.playSoundToSet( SOUNDID_LK_SUMMON_VALKYR )
         unit.castSpell( SPELLID_SUMMON_VALKYR, True )
-        LK_SummonV[ lkguid ] = Math.randomUInt( 48, 50 )
+        LK_SummonV[ lkguid ] = 50 #Math.randomUInt( 48, 50 )
 
     elif ( phase == LK_PHASE_TWO or phase == LK_PHASE_THREE ) and LK_Defile[ lkguid ] <= 0:
         unit.sendChatMessage( CHAT_MSG_RAID_WARNING_WIDESCREEN, arcemu.LANG_UNIVERSAL, "%s begins to cast Defile!" )
@@ -195,14 +195,14 @@ def LichKing_onAIUpdate( unit, event ):
         tank = creature.getMostHated()
         if tank is not None:
             unit.castSpell( SPELLID_DEFILE, False, tank )
-            LK_Defile[ lkguid ] = Math.randomUInt( 32, 35 )
+            LK_Defile[ lkguid ] = 35# Math.randomUInt( 32, 35 )
 
     elif ( phase == LK_PHASE_TWO or phase == LK_PHASE_THREE ) and LK_SoulR[ lkguid ] <= 0:
         creature = unit.toCreature()
         tank = creature.getMostHated()
         if tank is not None:
             unit.castSpell( SPELLID_SOUL_REAPER, True, tank )
-            LK_SoulR[ lkguid ] = Math.randomUInt( 33, 35 )
+            LK_SoulR[ lkguid ] = 35# Math.randomUInt( 33, 35 )
 
     lkguid = unit.getGUID()
 
