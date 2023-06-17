@@ -18,3 +18,8 @@ setByteFlags( index, byte, flag )
 setPhase( phase )
 addPhase( phase )
 removePhase( phase )
+getPhase()
+getZoneId()
+getMapId()
+getObject()
+
