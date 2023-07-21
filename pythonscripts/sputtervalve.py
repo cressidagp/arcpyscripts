@@ -26,6 +26,5 @@ def Sputtervalve_onSelectOption( unit, player, id, enteredCode ):
 
     menu.sendToPlayer( player )
 
-
 arcemu.RegisterUnitGossipEvent( NPC_ID_SPUTTERVALVE, arcemu.GOSSIP_EVENT_HELLO, Sputtervalve_onHello )
 arcemu.RegisterUnitGossipEvent( NPC_ID_SPUTTERVALVE, arcemu.GOSSIP_EVENT_SELECT, Sputtervalve_onSelectOption )
