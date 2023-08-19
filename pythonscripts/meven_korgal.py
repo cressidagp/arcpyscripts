@@ -31,7 +31,7 @@ def MevenKorgal_onAIUpdate( unit, event ):
 
     unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_YELL, arcemu.LANG_UNIVERSAL, MEVEN_KORGAL_TEXTS[ state ] )
 
-    if state == 5:
+    if state == 4:
             state = 0
     else:
             state = state + 1
