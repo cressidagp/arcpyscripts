@@ -40,7 +40,7 @@ def MevenKorgal_onAIUpdate( unit, event ):
 
 def MevenKorgal_onLoad( unit, event ):
 
-    unit.RegisterAIUpdateEvent( 120000 )
+    unit.RegisterAIUpdateEvent( 90000 )
 
 arcemu.RegisterUnitEvent( NPC_ID_MEVEN_KORGAL, arcemu.CREATURE_EVENT_ON_LOAD, MevenKorgal_onLoad )
 arcemu.RegisterUnitEvent( NPC_ID_MEVEN_KORGAL, arcemu.CREATURE_EVENT_ON_AIUPDATE, MevenKorgal_onAIUpdate )
