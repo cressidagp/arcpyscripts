@@ -26,15 +26,16 @@ APOTHECARY_HOLLAND_STATE = {}
 NPC_ID_APOTHECARY_HOLLAND = 10665
 
 def ApothecaryHolland_onReachWP( unit, event, waypointId, forward ):
-    guid = unit.getGUID()
 
-    if guid not in APOTHECARY_HOLLAND_STATE:
-        APOTHECARY_HOLLAND_STATE[ guid ] = 0
+    chance = Math.randomUInt( 9 )
 
-    chance = Math.randomUInt( 10 )
+    if chance >= 0 and chance < 1:
 
-    if chance >= 0 and chance <= 2:
-          
+        guid = unit.getGUID()
+
+        if guid not in APOTHECARY_HOLLAND_STATE:
+              APOTHECARY_HOLLAND_STATE[ guid ] = 0
+              
         state = APOTHECARY_HOLLAND_STATE[ guid ]
 
         unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_ORCISH, APOTHECARY_HOLLAND_TEXTS[ state ] )
