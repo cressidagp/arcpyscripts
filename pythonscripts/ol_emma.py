@@ -27,9 +27,9 @@ NPC_ID_OL_EMMA = 3520
 
 def OlEmma_onReachWP( unit, event, waypointId, forward ):
 
-	chance = Math.randomUInt( 9 )
+	chance = Math.randomUInt( 99 )
 
-	if chance >= 0 and chance < 1:
+	if chance < 10:
 
 		guid = unit.getGUID()
 
