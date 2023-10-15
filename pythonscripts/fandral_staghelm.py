@@ -24,11 +24,9 @@ def FandralStaghelm_onHello( unit, event, player ):
 
 def FandralStaghelm_onSelectOption( unit, player, id, enteredCode ):
 
-    if id == 0:
+    menu = GossipMenu( 2320, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
 
-        menu = GossipMenu( 2320, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
-
-        menu.sendToPlayer( player )
+    menu.sendToPlayer( player )
 
 arcemu.RegisterUnitGossipEvent( NPC_ID_FANDRAL_STAGHELM, arcemu.GOSSIP_EVENT_HELLO, FandralStaghelm_onHello )
 arcemu.RegisterUnitGossipEvent( NPC_ID_FANDRAL_STAGHELM, arcemu.GOSSIP_EVENT_SELECT, FandralStaghelm_onSelectOption )
