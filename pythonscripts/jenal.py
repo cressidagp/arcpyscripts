@@ -3,6 +3,7 @@
 Engine: APE
 Zone: Teldrassil
 Creature: Jenal
+.npc portto 51320
 
 '''
 
@@ -15,7 +16,8 @@ def Jenal_onHello( unit, event, player ):
 
     menu = GossipMenu( 2313, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
 
-    menu.addItem( arcemu.ICON_CHAT, "What are you doing out here?", 1, 0 )
+    menu.addItem( arcemu.ICON_CHAT, "What are you doing out here?", 0, 0 )
+
     menu.addQuests( unit, player )
 
     menu.sendToPlayer( player )

@@ -23,12 +23,10 @@ def ArcanistVandril_onHello( unit, event, player ):
     menu.sendToPlayer( player )
 
 def ArcanistVandril_onSelectOption( unit, player, id, enteredCode ):
-
-    if id == 0:
     
-        menu = GossipMenu( 8501, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
+    menu = GossipMenu( 8501, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
 
-        menu.sendToPlayer( player )
+    menu.sendToPlayer( player )
 
 arcemu.RegisterUnitGossipEvent( NPC_ID_ARCANIST_VANDRIL, arcemu.GOSSIP_EVENT_HELLO, ArcanistVandril_onHello )
 arcemu.RegisterUnitGossipEvent( NPC_ID_ARCANIST_VANDRIL, arcemu.GOSSIP_EVENT_SELECT, ArcanistVandril_onSelectOption )

@@ -3,6 +3,7 @@
 Engine: APE
 Zone: Bloodmyst Isle
 Creature: Knight Defender Zunade
+.npc portto 74750
 
 '''
 
@@ -15,7 +16,7 @@ def KnightDefenderZunade_onHello( unit, event, player ):
 
     menu = GossipMenu( 9172, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
 
-    menu.addItem( arcemu.ICON_CHAT, "Tell me about the Defenders.", 1, 0 )
+    menu.addItem( arcemu.ICON_CHAT, "Tell me about the Defenders.", 0, 0 )
 
     menu.sendToPlayer( player )
 

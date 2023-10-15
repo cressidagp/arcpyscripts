@@ -3,6 +3,7 @@
 Engine: APE
 Zone: Stormwind City, Tirisfall Glades
 Creature: Ian Drake, Edward Cain
+.npc portto 120346 / .npc portto 120347
 
 '''
 
@@ -30,16 +31,14 @@ def elders_onHello( unit, event, player ):
 
 def elders_onSelectOption( unit, player, id, enteredCode ):
 
-    if id == 0:
+    if enteredCode == '69':
 
-        if enteredCode == '69':
+        player.addItem( ITEM_ID_TYRAELS_HILT, 1 )
 
-            player.addItem( ITEM_ID_TYRAELS_HILT, 1 )
+    else:
+        unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, ELDERS_TEXTS[ 0 ] )
 
-        else:
-             unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, ELDERS_TEXTS[ 0 ] )
-
-        GossipMenu.complete( player )
+    GossipMenu.complete( player )
             
 arcemu.RegisterUnitGossipEvent( NPC_ID_IAN_DRAKE, arcemu.GOSSIP_EVENT_HELLO, elders_onHello )
 arcemu.RegisterUnitGossipEvent( NPC_ID_IAN_DRAKE, arcemu.GOSSIP_EVENT_SELECT, elders_onSelectOption )
