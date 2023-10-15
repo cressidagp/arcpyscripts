@@ -3,6 +3,7 @@
 Engine: APE
 Zone: Barrens
 Creature: Sputtervalve
+.npc portto 28362
 
 '''
 
@@ -15,7 +16,8 @@ def Sputtervalve_onHello( unit, event, player ):
 
     menu = GossipMenu( 519, unit, arcemu.GOSSIP_AUTOSEND_FALSE )
 
-    menu.addItem( arcemu.ICON_CHAT, "How can I help?", 1, 0 )
+    menu.addItem( arcemu.ICON_CHAT, "How can I help?", 0, 0 )
+
     menu.addQuests( unit, player )
 
     menu.sendToPlayer( player )
