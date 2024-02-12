@@ -9,3 +9,6 @@ DELETE FROM npc_gossip_textid WHERE creatureid = 9047;
 
 -- Knight Defender Zunade
 DELETE FROM npc_gossip_textid WHERE creatureid = 18030;
+
+-- Thomas Miller
+DELETE FROM npc_monstersay WHERE entry = 3518 and event = 1;
