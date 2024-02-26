@@ -1,7 +1,17 @@
+'''
+ 
+Engine: APE
+Zone: EF
+Creature: Supervisor Raelen
+.npc portto 53868
+ 
+'''
+
 import arcemu
 import ArcPyMath as Math
-from arcemu import Unit
-from arcemu import ObjectLocator
+#from arcemu import ObjectLocator
+from arcemu import CreatureScript
+
 
 RAELEN_TEXTS = [
 "We have yet to meet our quota for the wood demand. Now back to work with you.",
@@ -14,27 +24,46 @@ RAELEN_EMOTES = [ 25, 1, 5 ]
 NPC_ID_SUPERVISOR_RAELEN = 10616
 NPC_ID_EASTVALE_PEASANT = 11328
 
-def SupervisorRaelen_onLoad( unit, event ):
+RAELEN_STATE = {}
 
-    unit.RegisterAIUpdateEvent( 1 * 1000 )
+class SupervisorRaelenCreatureScript( CreatureScript ):
 
-def SupervisorRaelen_onAIUpdate( unit, event ):
+     isEnabled = True
+     timerToEnable = 20
 
-    objects = unit.getObjectsInRange()
-    for o in objects:
-        u = arcemu.toUnit( o )
-        if u is not None:
-            entry = u.getUInt32Value( arcemu.OBJECT_FIELD_ENTRY )
+     def __init__( self, unit ):
+          CreatureScript.__init__( self, unit )
 
-            if entry == NPC_ID_EASTVALE_PEASANT:
-                distance = unit.calcDistance( u )
-                print(distance)
-                
-                if distance < 10:
-                    i = Math.randomUInt( 2 )
-                    unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_COMMON, RAELEN_TEXTS[ Math.randomUInt( i ) ] )
-                    unit.emote( RAELEN_EMOTES[ Math.randomUInt( i ) ], 0 )
-                    unit.ModifyAIUpdateEvent( 20 * 1000 )
+     def OnLoad( self ):
+          npc = self.creature
+          npc.RegisterAIUpdateEvent( 1000 )
+          self.isEnabled = True
 
-arcemu.RegisterUnitEvent( NPC_ID_SUPERVISOR_RAELEN, arcemu.CREATURE_EVENT_ON_LOAD, SupervisorRaelen_onLoad )
-arcemu.RegisterUnitEvent( NPC_ID_SUPERVISOR_RAELEN, arcemu.CREATURE_EVENT_ON_AIUPDATE, SupervisorRaelen_onAIUpdate )
+     def AIUpdate( self ):
+          
+          if self.isEnabled == False:
+               self.timerToEnable = self.timerToEnable - 1
+               if self.timerToEnable <= 0:
+                    self.isEnabled = True
+               return
+          
+          npc = self.creature
+          objects = npc.getObjectsInRange() 
+          for o in objects:
+               c = arcemu.toCreature( o )
+               if c is not None:
+                    entry = c.getUInt32Value( arcemu.OBJECT_FIELD_ENTRY )
+                    if entry == NPC_ID_EASTVALE_PEASANT:
+                         distance = npc.calcDistance( c )
+                         if distance < 4:
+                              i = Math.randomUInt( 2 )
+                              npc.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_COMMON, RAELEN_TEXTS[ Math.randomUInt( i ) ] )
+                              npc.emote( RAELEN_EMOTES[ Math.randomUInt( i ) ], 0 )
+                              self.isEnabled = False
+                              self.timerToEnable = 20
+
+     @staticmethod
+     def create( unit ):
+          return SupervisorRaelenCreatureScript( unit )
+
+arcemu.RegisterCreatureScript( NPC_ID_SUPERVISOR_RAELEN, SupervisorRaelenCreatureScript.create )
