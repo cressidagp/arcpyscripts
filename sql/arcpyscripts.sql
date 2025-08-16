@@ -12,3 +12,6 @@ DELETE FROM npc_gossip_textid WHERE creatureid = 18030;
 
 -- Thomas Miller
 DELETE FROM npc_monstersay WHERE entry = 3518 and event = 1;
+
+-- ICC: The Damned
+DELETE FROM ai_agents WHERE entry = 37011;
