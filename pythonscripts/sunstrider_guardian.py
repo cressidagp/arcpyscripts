@@ -16,7 +16,7 @@ def SunstriderGuardian_onEmote( unit, event, player, emoteId ):
 
     if chance <= 30:
 
-        #EMOTE_ONESHOT_SALUTE
+        #EMOTE_ONESHOT_RUDE
         if emoteId == 14:
             unit.sendChatMessage( arcemu.CHAT_MSG_MONSTER_SAY, arcemu.LANG_UNIVERSAL, SUNSTRIDER_GUARDIAN_TEXTS[ 2 ] )
             unit.emote( arcemu.EMOTE_ONESHOT_TALK, 1000 )
