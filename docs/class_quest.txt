@@ -1,2 +1,8 @@
+# -- The Quest class contains the following methods --
+
 getTitle()
 getId()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Quest_Methods

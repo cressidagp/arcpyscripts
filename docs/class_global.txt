@@ -1,3 +1,5 @@
+# -- The Global class contains the following methods --
+
 RegisterServerHook( eventType, functionName )
 RegisterUnitGossipEvent( creatureId, eventType, functionName )
 RegisterItemGossipEvent( itemId, eventType, functionName )
@@ -11,3 +13,7 @@ RegisterScriptedEffectHandler( spellId, functionName )
 RegisterDummyAura( spellId, functionName )
 toUnit( object )
 toCreature( object )
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Global_Methods

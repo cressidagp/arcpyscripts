@@ -1,4 +1,11 @@
+# -- The GossipMenu class contains the following methods --
+
+GossipMenu()
 addItem( icon, text, option, coded, boxMessage, boxMoney )
 addQuests( creature, player )
 sendToPlayer( player )
 complete( player )
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Gossipmenu_Methods

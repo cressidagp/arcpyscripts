@@ -1,2 +1,8 @@
+# -- The Guild class contains the following methods --
+
 getGuildName()
 getGuildId()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Guild_Methods

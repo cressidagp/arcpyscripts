@@ -1,3 +1,9 @@
+# -- The Math class contains the following methods --
+
 calcDistance( ax, ay, az, bx, by, bz )
 randomUInt( upperBond )
 randomFloat( upperBond )
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Math_Methods

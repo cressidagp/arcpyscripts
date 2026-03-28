@@ -1,3 +1,5 @@
+# -- The MapMgr class contains the following methods --
+
 getMapId()
 spawnCreature( id, x, y, z )
 spawnGameObject( id, x, y, z )
@@ -7,3 +9,7 @@ updateWorldState( zone, field, value )
 getCreatureNearestCoords( x, y, z, creatureId )
 getGameObjectNearestCoords( x, y, z, goId )
 getObject()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Mapmgr_Methods

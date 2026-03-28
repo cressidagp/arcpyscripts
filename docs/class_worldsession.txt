@@ -1,4 +1,10 @@
+# -- The WorldSession class contains the following methods --
+
 getAccountName()
 getAccountId()
 sendInventoryList( creature )
 sendTrainerList( creature )
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Worldsession_Methods

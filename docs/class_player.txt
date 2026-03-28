@@ -1,3 +1,5 @@
+# -- The Player class contains the following methods --
+
 getName()
 sendChatMessage( type, lang, msg )
 toUnit()
@@ -19,3 +21,8 @@ broadcastMessage( message )
 getSelectedUnit()
 getAreaId()
 getSelection()
+sendWeather( type, density )
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Player_Methods

@@ -1,6 +1,12 @@
+# -- The GameObject class contains the following methods --
+
 getName()
 getId()
 RegisterAIUpdateEvent( interval )
 ModifyAIUpdateEvent( interval )
 RemoveAIUpdateEvent()
 despawn( delay, respawnTime )
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Gameobject_Methods

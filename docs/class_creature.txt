@@ -1,3 +1,5 @@
+# -- The Creature class contains the following methods --
+
 destroyCustomWaypoints()
 createCustomWaypoint( x, y, z, o, wait, flags, model )
 setMovementType( type )
@@ -18,3 +20,9 @@ getMostHated()
 getSecondMostHated()
 wipeTargetList()
 setNextTarget( target )
+activate( activator)
+deactivate()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Creature_Methods

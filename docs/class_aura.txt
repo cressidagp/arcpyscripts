@@ -1,6 +1,12 @@
+# -- The Aura class contains the following methods --
+
 getSpellName()
 getSpellId()
 getAuraSlot()
 getCasterGuid()
 remove()
 getTarget()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Aura_Methods

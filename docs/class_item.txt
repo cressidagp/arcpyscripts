@@ -1,2 +1,8 @@
+# -- The Item class contains the following methods --
+
 getName()
 getId()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Item_Methods

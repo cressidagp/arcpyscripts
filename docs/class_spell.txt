@@ -1,3 +1,5 @@
+# -- The Spell class contains the following methods --
+
 getName()
 getCaster()
 getPlayerCaster()
@@ -6,3 +8,7 @@ getTargetDestinationX()
 getTargetDestinationY()
 getTargetDestinationZ()
 cancel()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Spell_Methods

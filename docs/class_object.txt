@@ -1,3 +1,5 @@
+# -- The Object class contains the following methods --
+
 getPositionX()
 getPositionY()
 getPositionZ()
@@ -7,6 +9,7 @@ isInFront( otherObject )
 isInArc( otherObject, angle )
 getObjectsInRange()
 getMapMgr()
+sendZoneWeather( type, density )
 setFloatValue( index, value )
 getFloatValue( index )
 setUInt32Value( index, value )
@@ -22,4 +25,10 @@ getPhase()
 getZoneId()
 getMapId()
 getObject()
+setZoneWeather( type, density )
+setOrientation( orientation )
+getInstanceId()
 
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_Object_Methods

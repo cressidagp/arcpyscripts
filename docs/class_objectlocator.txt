@@ -1,0 +1,11 @@
+# -- The Object Locator class contains the following methods --
+
+findClosestFriendly()
+getRandomFriendly()
+findClosestEnemy()
+getRandomEnemy()
+findClosestPlayer()
+
+# -- More info at:
+
+https://arcemu.fandom.com/wiki/APE_ObjectLocator_Methods
